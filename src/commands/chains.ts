@@ -8,6 +8,29 @@ export function register(program: Command) {
     .option('-s, --search <q>', 'filter by name, id, or native currency symbol')
     .option('--limit <n>', 'max results (0 = all)', '50')
     .summary('list chains exported by viem/chains')
+    .description(
+      [
+        'List the chain definitions bundled with viem (viem/chains). Each row',
+        'shows the chain id, display name, native currency symbol, and the export',
+        'name you would pass to other commands via -c, --chain.',
+        '',
+        'Use --search to filter by name, numeric id, or native currency symbol',
+        '(case-insensitive). Results are capped at 50 by default — pass --limit 0',
+        'to print every chain.'
+      ].join('\n')
+    )
+    .addHelpText(
+      'after',
+      [
+        '',
+        'Examples:',
+        '  $ viem chains --limit 10',
+        '  $ viem chains -s base',
+        '  $ viem --json chains -s 10 --limit 0',
+        'Docs: https://viem.sh/docs/chains/introduction',
+        ''
+      ].join('\n')
+    )
     .action((opts: { search?: string; limit?: string }) => {
       const all = listChains(opts.search)
       const limit = Number(opts.limit ?? '50')
